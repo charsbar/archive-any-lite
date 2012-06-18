@@ -1,11 +1,13 @@
 use strict;
 use warnings;
 use FindBin;
-use Test::More 'no_plan';
+use Test::More;
 
 BEGIN {
   eval "require Parallel::ForkManager; 1" or plan skip_all => 'this test requires Parallel::ForkManager';
 }
+
+plan 'no_plan';
 
 use Archive::Any::Lite;
 use File::Temp qw/tempdir/;
@@ -33,7 +35,7 @@ for my $i (1..100) {
   my $ext = qw(tar.gz tar.bz2 tgz zip)[int(rand(4))];
 
   my ($ok, $not_ok) = (0, 0);
-  if (my $archive = Archive::Any::Lite->new("$FindBin::Bin/t/$type.$ext")) {
+  if (my $archive = Archive::Any::Lite->new("$FindBin::Bin/$type.$ext")) {
     note "extracting $dir/$type.$ext";
     $archive->extract($dir);
     my @files = $archive->files;
