@@ -93,7 +93,7 @@ sub extract {
   until (eof $fh) {
     my @files = $tar->read($fh, undef, {limit => 1});
     for my $file (@files) {
-      my $path = File::Spec->catpath((defined $dir ? $dir : "."), $file->prefix, $file->name);
+      my $path = File::Spec->catfile((defined $dir ? $dir : "."), $file->prefix, $file->name);
       $file->extract(File::Spec->canonpath($path));
     }
   }
@@ -129,7 +129,7 @@ __END__
 
 =head1 NAME
 
-Archive::Any::Lite - a lighter-weight fork of Archive::Any
+Archive::Any::Lite - simple CPAN package extractor
 
 =head1 SYNOPSIS
 
