@@ -77,7 +77,7 @@ sub extract {
   my ($self, $file, $dir) = @_;
   my $tar = Archive::Tar->new;
   my $fh;
-  if ($file =~ /\.tgz$/) {
+  if ($file =~ /\.(tgz|tar\.gz)$/) {
     require IO::Zlib;
     $fh = IO::Zlib->new($file, "rb") or do { warn "$file: $!"; return };
   }
