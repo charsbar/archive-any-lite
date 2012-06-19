@@ -1,4 +1,7 @@
 Revision history for Archive-Any-Lite
 
+0.02 2012/06/19
+  - fixed tar.gz handling
+
 0.01 2012/06/18
   - initial release
