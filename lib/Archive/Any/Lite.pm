@@ -90,13 +90,25 @@ sub extract {
     binmode $fh;
   }
 
+  # Archive::Tar is too noisy when an archive has minor glitches.
+  # Note also that $file can't hold the last error.
+  local $Archive::Tar::WARN;
+  my %errors;
   until (eof $fh) {
     my @files = $tar->read($fh, undef, {limit => 1});
+    if (my $error = $tar->error) {
+      warn $error unless $errors{$error}++;
+    }
     for my $file (@files) {
       my $path = File::Spec->catfile((defined $dir ? $dir : "."), $file->prefix, $file->name);
-      $file->extract(File::Spec->canonpath($path));
+      $tar->extract_file($file, File::Spec->canonpath($path)) or do {
+        if (my $error = $tar->error) {
+          warn $error unless $errors{$error}++;
+        }
+      };
     }
   }
+  return if %errors;
   return 1;
 }
 
@@ -114,10 +126,13 @@ sub files {
 sub extract {
   my ($self, $file, $dir) = @_;
   my $zip = Archive::Zip->new($file) or return;
+  my $error = 0;
   for my $member ($zip->members) {
     my $path = File::Spec->catfile((defined $dir ? $dir : '.'), $member->fileName);
-    $member->extractToFileNamed(File::Spec->canonpath($path));
+    my $ret = $member->extractToFileNamed(File::Spec->canonpath($path));
+    $error++ if $ret != AZ_OK;
   }
+  return if $error;
   return 1;
 }
 
