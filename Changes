@@ -1,5 +1,8 @@
 Revision history for Archive-Any-Lite
 
+0.03 2012/0715
+  - error handling so that extract returns false
+
 0.02 2012/06/19
   - fixed tar.gz handling
 
