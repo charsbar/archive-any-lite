@@ -94,12 +94,13 @@ sub extract {
   # Note also that $file can't hold the last error.
   local $Archive::Tar::WARN;
   my %errors;
+  my $has_extracted;
   until (eof $fh) {
     my @files = $tar->read($fh, undef, {limit => 1});
     if (my $error = $tar->error) {
       warn $error unless $errors{$error}++;
     }
-    unless (@files) {
+    if (!@files && !$has_extracted) {
       warn "No data could be read from $file";
       return;
     }
@@ -111,6 +112,7 @@ sub extract {
         }
       };
     }
+    $has_extracted += @files;
   }
   return if %errors;
   return 1;
