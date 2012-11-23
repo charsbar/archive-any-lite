@@ -1,6 +1,9 @@
 Revision history for Archive-Any-Lite
 
-0.03 2012/0715
+0.04 2012/11/24
+  - warn and stop processing if no data could be taken from a broken tarball
+
+0.03 2012/07/15
   - error handling so that extract returns false
 
 0.02 2012/06/19
