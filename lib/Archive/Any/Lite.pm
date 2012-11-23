@@ -99,6 +99,10 @@ sub extract {
     if (my $error = $tar->error) {
       warn $error unless $errors{$error}++;
     }
+    unless (@files) {
+      warn "No data could be read from $file";
+      return;
+    }
     for my $file (@files) {
       my $path = File::Spec->catfile((defined $dir ? $dir : "."), $file->prefix, $file->name);
       $tar->extract_file($file, File::Spec->canonpath($path)) or do {
