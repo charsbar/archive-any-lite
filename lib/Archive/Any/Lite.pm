@@ -75,6 +75,7 @@ sub files {
 
 sub extract {
   my ($self, $file, $dir) = @_;
+  $dir = '.' unless defined $dir;
   my $tar = Archive::Tar->new;
   my $fh;
   if ($file =~ /\.(tgz|tar\.gz)$/) {
@@ -105,7 +106,7 @@ sub extract {
       return;
     }
     for my $file (@files) {
-      my $path = File::Spec->catfile((defined $dir ? $dir : "."), $file->prefix, $file->name);
+      my $path = File::Spec->catfile($dir, $file->prefix, $file->name);
       $tar->extract_file($file, File::Spec->canonpath($path)) or do {
         if (my $error = $tar->error) {
           warn $error unless $errors{$error}++;
@@ -132,9 +133,10 @@ sub files {
 sub extract {
   my ($self, $file, $dir) = @_;
   my $zip = Archive::Zip->new($file) or return;
+  $dir = '.' unless defined $dir;
   my $error = 0;
   for my $member ($zip->members) {
-    my $path = File::Spec->catfile((defined $dir ? $dir : '.'), $member->fileName);
+    my $path = File::Spec->catfile($dir, $member->fileName);
     my $ret = $member->extractToFileNamed(File::Spec->canonpath($path));
     $error++ if $ret != AZ_OK;
   }
