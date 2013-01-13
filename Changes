@@ -1,5 +1,8 @@
 Revision history for Archive-Any-Lite
 
+0.05 2013/01/13
+  - check a directory earlier for efficiency
+
 0.04 2012/11/24
   - warn and stop processing if no data could be taken from a broken tarball
 

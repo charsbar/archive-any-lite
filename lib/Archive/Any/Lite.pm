@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use File::Spec;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 sub new {
   my ($class, $file) = @_;
