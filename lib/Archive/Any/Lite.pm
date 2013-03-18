@@ -5,6 +5,7 @@ use warnings;
 use File::Spec;
 
 our $VERSION = '0.05';
+our $IGNORE_SYMLINK;
 
 sub new {
   my ($class, $file) = @_;
@@ -106,6 +107,7 @@ sub extract {
       return;
     }
     for my $file (@files) {
+      next if $IGNORE_SYMLINK && $file->is_symlink;
       my $path = File::Spec->catfile($dir, $file->prefix, $file->name);
       $tar->extract_file($file, File::Spec->canonpath($path)) or do {
         if (my $error = $tar->error) {
@@ -137,6 +139,7 @@ sub extract {
   my $error = 0;
   for my $member ($zip->members) {
     my $path = File::Spec->catfile($dir, $member->fileName);
+    next if $IGNORE_SYMLINK && $member->isSymbolicLink;
     my $ret = $member->extractToFileNamed(File::Spec->canonpath($path));
     $error++ if $ret != AZ_OK;
   }
@@ -159,6 +162,8 @@ Archive::Any::Lite - simple CPAN package extractor
     use strict;
     use warnings;
     use Archive::Any::Lite;
+
+    local $Archive::Any::Lite::IGNORE_SYMLINK = 1; # for safety
 
     my $tarball = 'foo.tar.gz';
     my $archive = Archive::Any::Lite->new($tarball);
@@ -204,6 +209,12 @@ Checks to see if this archive is going to unpack outside the current directory.
 =head2 type
 
 Deprecated. For backward compatibility only.
+
+=head1 GLOBAL VARIABLE
+
+=head2 $IGNORE_SYMLINK
+
+If set to true, symlinks will be ignored.
 
 =head1 SEE ALSO
 
