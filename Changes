@@ -1,5 +1,8 @@
 Revision history for Archive-Any-Lite
 
+0.06 2013/03/19
+  - added $IGNORE_SYMLINK to ignore symlinks
+
 0.05 2013/01/13
   - check a directory earlier for efficiency
 
