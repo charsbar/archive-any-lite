@@ -138,8 +138,8 @@ sub extract {
   $dir = '.' unless defined $dir;
   my $error = 0;
   for my $member ($zip->members) {
-    my $path = File::Spec->catfile($dir, $member->fileName);
     next if $IGNORE_SYMLINK && $member->isSymbolicLink;
+    my $path = File::Spec->catfile($dir, $member->fileName);
     my $ret = $member->extractToFileNamed(File::Spec->canonpath($path));
     $error++ if $ret != AZ_OK;
   }
