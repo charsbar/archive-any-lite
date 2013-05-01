@@ -107,7 +107,7 @@ sub extract {
       return;
     }
     for my $file (@files) {
-      next if $IGNORE_SYMLINK && $file->is_symlink;
+      next if $IGNORE_SYMLINK && ($file->is_symlink or $file->is_hardlink);
       my $path = File::Spec->catfile($dir, $file->prefix, $file->name);
       $tar->extract_file($file, File::Spec->canonpath($path)) or do {
         if (my $error = $tar->error) {
@@ -214,7 +214,7 @@ Deprecated. For backward compatibility only.
 
 =head2 $IGNORE_SYMLINK
 
-If set to true, symlinks will be ignored.
+If set to true, symlinks (and hardlinks for tarball) will be ignored.
 
 =head1 SEE ALSO
 
