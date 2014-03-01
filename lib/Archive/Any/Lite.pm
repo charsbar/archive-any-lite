@@ -177,7 +177,7 @@ This is a fork of L<Archive::Any> by Michael Schwern and Clint Moore. The main d
 
 =head2 new
 
-  my $archive = Archive::Any->new($archive_file);
+  my $archive = Archive::Any::Lite->new($archive_file);
 
 Creates an object.
 
