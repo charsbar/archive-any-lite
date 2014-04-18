@@ -1,5 +1,8 @@
 Revision history for Archive-Any-Lite
 
+0.09 2014/04/18
+  - updated version requirements (reported by Paul Howarth).
+
 0.08 2014/04/18
   - supported an optional hash reference for finer extraction control
 
