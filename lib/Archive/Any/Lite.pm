@@ -16,13 +16,16 @@ sub new {
     return;
   }
 
+  # just for undocumented backward compat
+  my $type = !ref $opts ? $opts : '';
+
   # XXX: trust file extensions until I manage to make File::MMagic
   #      more reliable while fork()ing or I happen to find a decent
   #      and portable alternative to File::MMagic.
 
   my $handler =
-    $file =~ /\.(?:tar|tar\.(?:gz|bz2)|gtar|tgz)$/ ? 'Archive::Any::Lite::Tar' :
-    $file =~ /\.(?:zip)$/ ? 'Archive::Any::Lite::Zip' : undef;
+    ($type && lc $type eq 'tar') || $file =~ /\.(?:tar|tar\.(?:gz|bz2)|gtar|tgz)$/ ? 'Archive::Any::Lite::Tar' :
+    ($type && lc $type eq 'zip') || $file =~ /\.(?:zip)$/ ? 'Archive::Any::Lite::Zip' : undef;
   unless ($handler) {
     warn "No handler available for $file\n";
     return;
@@ -31,7 +34,7 @@ sub new {
   bless {
     file    => $file,
     handler => $handler,
-    opts    => $opts,
+    opts    => ref $opts ? $opts : undef,
   }, $class;
 }
 
