@@ -6,6 +6,7 @@ MANIFEST			This list of files
 README
 t/00_load.t
 t/30_fork.t
+t/40_symlinks.t
 t/99_pod.t
 t/99_podcoverage.t
 t/Any.t
@@ -16,3 +17,5 @@ t/lib.tar.gz
 t/lib.tgz
 t/lib.zip
 t/naughty.tar
+t/symlink_test.tar.gz
+t/symlink_test.zip
