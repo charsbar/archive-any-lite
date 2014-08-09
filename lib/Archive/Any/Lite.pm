@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use File::Spec;
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 our $IGNORE_SYMLINK;
 
 sub new {
