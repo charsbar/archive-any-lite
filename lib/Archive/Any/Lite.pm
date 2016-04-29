@@ -81,6 +81,7 @@ sub files {
 sub extract {
   my ($self, $file, $dir, $opts) = @_;
   $dir = '.' unless defined $dir;
+  $dir = File::Spec->rel2abs($dir);
   my $tar = Archive::Tar->new;
   my $fh;
   if ($file =~ /\.(tgz|tar\.gz)$/) {
